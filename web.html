@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login & Sosial Media</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
+        color: white;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-attachment: fixed;
+      }
+      .container {
+        background: rgba(30, 30, 30, 0.95);
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 0 20px rgba(0, 255, 200, 0.2);
+        max-width: 400px;
+        width: 90%;
+      }
+      .anime-img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 100px;
+        margin-bottom: 20px;
+        border: 3px solid #00ffd5;
+      }
+      input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        background: #2a2a2a;
+        color: white;
+      }
+      button,
+      a {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+        padding: 12px;
+        background: #00ffd5;
+        color: black;
+        font-weight: bold;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: 0.3s ease;
+      }
+      button:hover,
+      a:hover {
+        background: #00bfa6;
+      }
+      #status {
+        margin-top: 10px;
+        color: #ff5050;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Login Box -->
+    <div class="container" id="loginBox">
+      <img
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUHw4u-FfciLc-OsfGbVrUN1OfMnRMcpfm19DYSEM-fUuFC4aHDjpsyo9qobGRMOOR7vA&usqp=CAU"
+        class="anime-img"
+        alt="Anime"
+      />
+      <h2>🔐 Login / Daftar</h2>
+      <input type="text" id="username" placeholder="Username" />
+      <input type="password" id="password" placeholder="Password" />
+      <button onclick="login()">Login</button>
+      <button onclick="register()">Daftar</button>
+      <p id="status"></p>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="container" id="dashboardBox" style="display: none">
+      <img
+        src="https://i.pinimg.com/1200x/7a/9d/e7/7a9de7c201d9de4fc6faa43a10eed4e2.jpg"
+        class="anime-img"
+        alt="Anime"
+      />
+      <h2>🎉 Selamat Datang, <span id="userWelcome"></span></h2>
+      <p>Link Sosial Media kamu:</p>
+
+      <a href="https://discord.gg/8W3fEW8z" target="_blank">🔗 Join Discord</a>
+      <a
+        href="https://www.tiktok.com/@yuuuvava?is_from_webapp=1&sender_device=pc"
+        target="_blank"
+        >🎵 TikTok</a
+      >
+      <a href="https://youtube.com/@USERNAME_YOUTUBE_KAMU" target="_blank"
+        >▶️ YouTube</a
+      >
+
+      <button onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+      let users = JSON.parse(localStorage.getItem("users") || "[]");
+      const currentUser = localStorage.getItem("loggedInUser");
+
+      if (currentUser) {
+        showDashboard(currentUser);
+      }
+
+      function login() {
+        const user = document.getElementById("username").value;
+        const pass = document.getElementById("password").value;
+        const found = users.find(
+          (u) => u.username === user && u.password === pass
+        );
+        if (found) {
+          localStorage.setItem("loggedInUser", user);
+          showDashboard(user);
+        } else {
+          document.getElementById("status").innerText =
+            "❌ Username atau password salah!";
+        }
+      }
+
+      function register() {
+        const user = document.getElementById("username").value;
+        const pass = document.getElementById("password").value;
+        if (users.find((u) => u.username === user)) {
+          document.getElementById("status").innerText =
+            "⚠️ Username sudah terdaftar!";
+        } else {
+          users.push({ username: user, password: pass });
+          localStorage.setItem("users", JSON.stringify(users));
+          document.getElementById("status").innerText =
+            "✅ Berhasil daftar, silakan login.";
+        }
+      }
+
+      function showDashboard(username) {
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("dashboardBox").style.display = "block";
+        document.getElementById("userWelcome").innerText = username;
+      }
+
+      function logout() {
+        localStorage.removeItem("loggedInUser");
+        location.reload();
+      }
+    </script>
+  </body>
+</html>
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login & Sosial Media</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        background: #111;
+        color: white;
+        text-align: center;
+        padding-top: 60px;
+      }
+      .box,
+      .dashboard {
+        background: #222;
+        padding: 30px;
+        border-radius: 12px;
+        max-width: 400px;
+        margin: auto;
+        display: none;
+      }
+      input,
+      button,
+      a {
+        margin: 10px;
+        padding: 10px;
+        width: 80%;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+      }
+      button,
+      a {
+        background: #00ffd5;
+        color: black;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: none;
+        display: block;
+      }
+      #status {
+        margin-top: 10px;
+        color: #ff5050;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Login / Register -->
+    <div class="box" id="loginBox">
+      <h2>🔐 Login / Daftar</h2>
+      <input type="text" id="username" placeholder="Username" />
+      <input type="password" id="password" placeholder="Password" />
+      <button onclick="login()">Login</button>
+      <button onclick="register()">Daftar</button>
+      <p id="status"></p>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboardBox">
+      <h2>🎉 Selamat Datang, <span id="userWelcome"></span></h2>
+      <p>Yuk kunjungi sosial media kami:</p>
+
+      <a href="https://discord.gg/LINK_DISCORD_KAMU" target="_blank"
+        >🔗 Join Discord</a
+      >
+      <a href="https://tiktok.com/@USERNAME_TIKTOK_KAMU" target="_blank"
+        >🎵 TikTok</a
+      >
+      <a href="https://instagram.com/USERNAME_IG_KAMU" target="_blank"
+        >📸 Instagram</a
+      >
+
+      <button onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+      // Data pengguna
+      let users = JSON.parse(localStorage.getItem("users") || "[]");
+
+      // Cek apakah sudah login
+      const currentUser = localStorage.getItem("loggedInUser");
+      if (currentUser) {
+        showDashboard(currentUser);
+      } else {
+        document.getElementById("loginBox").style.display = "block";
+      }
+
+      function login() {
+        const user = document.getElementById("username").value;
+        const pass = document.getElementById("password").value;
+        const found = users.find(
+          (u) => u.username === user && u.password === pass
+        );
+        if (found) {
+          localStorage.setItem("loggedInUser", user);
+          showDashboard(user);
+        } else {
+          document.getElementById("status").innerText =
+            "❌ Username atau password salah!";
+        }
+      }
+
+      function register() {
+        const user = document.getElementById("username").value;
+        const pass = document.getElementById("password").value;
+        if (users.find((u) => u.username === user)) {
+          document.getElementById("status").innerText =
+            "⚠️ Username sudah terdaftar!";
+        } else {
+          users.push({ username: user, password: pass });
+          localStorage.setItem("users", JSON.stringify(users));
+          document.getElementById("status").innerText =
+            "✅ Berhasil daftar, silakan login.";
+        }
+      }
+
+      function showDashboard(username) {
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("dashboardBox").style.display = "block";
+        document.getElementById("userWelcome").innerText = username;
+      }
+
+      function logout() {
+        localStorage.removeItem("loggedInUser");
+        location.reload();
+      }
+    </script>
+  </body>
+</html>
